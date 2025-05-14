@@ -2,7 +2,22 @@ package com.yedam;
 
 public class JSExe {
 	public static void main(String[] args) {
+<<<<<<< HEAD
 		test2();
+=======
+
+		// 변경된 부분.
+		// 아무내용이나 ...
+		
+		// 임의의 수를 생성 1 ~ 100사이의 임의의 값을 생성.
+		Math.random(); // 0 <= x < 1 | Math.random() * 10 : 0 <= x < 10
+		int sum = 0;
+		for (int i = 1; i <= 5; i++) {
+			int result = (int) (Math.random() * 100) + 1; // 1 <= x < 101			
+			sum += result;
+		} // for
+		System.out.println(sum);
+>>>>>>> branch 'master' of https://github.com/eunsuu0320/HelloWorld.git
 	} // main
 
 	public static void test() {
