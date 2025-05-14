@@ -77,17 +77,24 @@ public class JSExe {
 	public static void test4 () {
 		// 사용자에게서 받아온 이름들을 "친구 목록은 누구누구, 누구누구, 누구누구 입니다." 로 출력.
 		Scanner scn = new Scanner(System.in);
-		String name = "친구 목록은 ";
+		String name = "";
 		
 		while(true) {
 			System.out.println("친구의 이름을 입력하세요. 종료 하려면 quit 를 입력하세요.");
-			String msg = scn.nextLine();			
+			String msg = scn.nextLine();
+			
 			if (msg.equals("quit")) {
 				break;
 			} // if
-			name += msg + " ";
+			
+			if (name.equals("")) {
+				name += "친구 목록은 " + msg;
+			} else {
+				name += ", " + msg;
+			}
+				
 		} // while
-		System.out.println(name + "입니다.");
+		System.out.println(name + " 입니다.");
 		System.out.println("프로그램이 종료되었습니다.");
 	} // test4
 }
