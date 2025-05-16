@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class JSExe {
 	public static void main(String[] args) {
-		test4();
+		test5();
 		
 //		int num1 = 30;
 //		int num2 = 30;
@@ -84,6 +84,7 @@ public class JSExe {
 			String msg = scn.nextLine();
 			
 			if (msg.equals("quit")) {
+				System.out.println("프로그램이 종료되었습니다.");
 				break;
 			} // if
 			
@@ -95,6 +96,22 @@ public class JSExe {
 				
 		} // while
 		System.out.println(name + " 입니다.");
-		System.out.println("프로그램이 종료되었습니다.");
 	} // test4
+	
+	public static void test5 () {
+		//printf("형식문자열", 값1, 값2 ...)
+		System.out.printf("%s", "문자"); // 뒤에 오는 문자열을 출력
+		System.out.printf("%d\n", 30);    // 뒤에 오는 정수를 출력 \n는 줄바꿈
+		
+		// "홍길동", 100, 23.9
+		System.out.printf("%s %d %.1f\n", "홍길동", 100, 23.9);
+		
+		// "안녕하세요 최은수입니다.
+		// 나이는 20세 입니다.
+		// 몸무게는 55.5 입니다.
+		System.out.printf("안녕하세요 %s입니다\n 나이는 %d입니다\n 몸무게는 %.1f입니다\n", "최은수", 20, 55.5);
+		
+		System.out.print("문자");  // print 는 줄바꿈없이 옆에 계속 써주는거고 println은 줄바꿈을 해준다.
+		System.out.print("answk");
+	} // test5
 }
