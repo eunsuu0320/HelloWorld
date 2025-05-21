@@ -5,7 +5,7 @@ package com.yedam;
 public class StudentExample {
 	public static void main(String[] args) {
 		//클래스    변수         인스턴스 생성
-		Student student = new Student();  // 생성자를 통해서 인스턴스를 만들겠습니다 ~
+		Student student = new Student();  // 생성자를 통해서 인스턴스를 만들겠습니다 ~ 
 //		student.studentNo = 1001;
 		student.setStudentNo(1001);
 //		student.studentName = "홍길동";
