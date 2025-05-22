@@ -31,11 +31,7 @@ public class BoardExe {
 		boards[8] = new Board(18, "ㅇㅇㅇ세요", "반갑ㅇㅇㅇ", "최은수");
 	}
 
-	// 메소드
-	// 실행
-	public void execute() {
-		boolean run = true;
-
+	boolean loginCheck() {
 		// 3번의 기회를 날리면 프로그램 종료.
 		int count = 0;
 		while (true) {
@@ -45,26 +41,45 @@ public class BoardExe {
 			String password = userMessage("비밀번호를 입력해주세요.");
 			UserExe.login(userId, password);
 			if (!UserExe.login(userId, password)) {
-				System.out.println("아이디 또는 비밀번호가 일치하지 않습니다.");
 				count++;
+				if (count == 3) {
+					System.out.println("프로그램을 종료합니다.");
+					return false;
+				}
+				System.out.println("아이디 또는 비밀번호가 일치하지 않습니다.");
 				System.out.printf("%d번 틀렸습니다. 3번 틀리면 프로그램이 종료됩니다.\n\n", count);
 			} else {
 				System.out.printf("\n%s님, 환영합니다!\n\n", UserExe.userName(userId));
 				break;
 			}
-			if (count == 3) {
-				System.out.println("프로그램을 종료합니다.");
-				return;
-			}
+		} // while
+		return true;
+	} // loginCheck
 
+	// 메소드
+	// 실행
+	public void execute() {
+		boolean run = true;
+
+		if (!loginCheck()) {
+			return;
 		}
+		;
 
 		while (run) {
 			System.out.println("--------------------------------------------");
 			System.out.println("1.추가 | 2.수정 | 3.삭제 | 4.목록 | 5.달력 | 6.종료");
 			System.out.println("--------------------------------------------");
 			System.out.print("선택 >> ");
-			int selectNo = Integer.parseInt(scn.nextLine());
+
+			// 문자를 숫자 변경 예외 발생,
+			int selectNo = 0;
+			try {
+				selectNo = Integer.parseInt(scn.nextLine());
+			} catch (NumberFormatException e) {
+				System.out.println("1 ~ 5번 중에서 선택하세요.");
+				continue; // 다시 반복문의 처음으로 돌아가게 하기
+			}
 
 			switch (selectNo) {
 			case 1: // 추가
@@ -155,7 +170,16 @@ public class BoardExe {
 			} else if (str.equals("q")) {
 				page--;
 			} else {
-				Board sBoard = getBoard(Integer.parseInt(str));
+				// 목록에 없는 번호를 입력했을 때 예외 처리
+				int no = 0;
+				try {
+					no = Integer.parseInt(str);
+				} catch (NumberFormatException e) {
+					System.out.printf("\n목록에 있는 글 번호를 선택하세요.\n\n");
+					continue; // 다시 목록부터 보여주기
+				}
+				
+				Board sBoard = getBoard(no);
 				if (sBoard == null) {
 					System.out.println("조회한 결과가 없습니다.");
 					return;

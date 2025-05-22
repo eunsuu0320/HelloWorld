@@ -10,4 +10,6 @@ public class BoardApp {
 		BoardExe exe = new BoardExe();
 		exe.execute();
 	}
+	
+	
 }

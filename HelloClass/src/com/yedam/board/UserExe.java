@@ -51,7 +51,7 @@ public class UserExe {
 	// 사용자 아이디와 비밀번호를 매개값으로 받아와서 user에서 찾아보고 있으면 true
 	static boolean login(String userId, String password) {
 		for (int i = 0; i < users.length; i++) {
-			if (users[i] != null && users[i].getUserId().equals(userId) && users[i].getPassword().equals(password)) {
+			if (users[i].getUserId().equals(userId) && users[i].getPassword().equals(password)) {
 				return true;
 			}
 		}
