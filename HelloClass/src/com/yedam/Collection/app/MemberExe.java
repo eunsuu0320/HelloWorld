@@ -69,12 +69,10 @@ public class MemberExe {
 
 				// 같은 값을 찾아서 변경하기.
 				for (int i = 0; i < members.size(); i++) {
-					if (members.get(i) != null) {
 						if (members.get(i).getMemberId().equals(id)) {
 							members.get(i).setPhone(telNo);
 							System.out.println("수정완료.");
 						}
-					}
 				}
 				break;
 
@@ -84,12 +82,10 @@ public class MemberExe {
 
 				// 같은 값을 찾아서 삭제하기.
 				for (int i = 0; i < members.size(); i++) {
-					if (members.get(i) != null) {
 						if (members.get(i).getMemberId().equals(id)) {
 							members.remove(i);
 							System.out.println("삭제완료.");
 						}
-					}
 				}
 				break;
 
