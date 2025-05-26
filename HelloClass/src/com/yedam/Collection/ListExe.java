@@ -10,31 +10,7 @@ import com.yedam.api.Member;
  * 순서를 가지고 중복된 값도 가능.
  */
 
-class Student {
-	private int studentNo; // 1001, 1002, 1003 ... 1010;
-	private int score;
-	
-	public Student(int studentNo, int score) {
-		this.studentNo = studentNo;
-		this.score = score;
-	}
 
-	public int getStudentNo() {
-		return studentNo;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	@Override
-	public String toString() {
-		return "번호: " + studentNo + ", 점수: " + score;
-	} 
-	
-	
-	
-}
 public class ListExe {
 	public static void main(String[] args) {
 		List<Student> students = new ArrayList<Student>();

@@ -44,6 +44,7 @@ public class MemberExe {
 				int point = Integer.parseInt(scn.nextLine());
 				// 멤버변수 선언과 값 할당.
 				members.add(new Member(id, name, telNo, point));
+				System.out.println("등록완료.");
 				
 				Member member = new Member(id, name, telNo, point); // member는 참조변수
 //				member.setMemberId(id);
@@ -55,7 +56,6 @@ public class MemberExe {
 //				for (int i = 0; i < members.size(); i++) {
 //					if (members.get(i) == null) {
 //						members.add(member);
-//						System.out.println("등록완료.");
 //						break; // 한건을 추가했으면 반복문 종료.
 //					}
 //				}
