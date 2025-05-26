@@ -18,18 +18,28 @@ public class Homework4 {
 		while (true) {
 			System.out.print("단어를 입력하세요. >> ");
 			String word = scn.nextLine();
-			words.add(word);
+			words.add(word.toLowerCase());
 			if (word.equals("끝")) {
 				break;
 			}
-			selectWords(words, count);
-			for (int i = 0; i < words.size(); i++) {				
-				System.out.printf("%s: %d", words.get(i), count);
-			}
-			
+		} // while
+		
+		selectWords(words, count);
+		for (int i = 0; i < words.size(); i++) {				
+			System.out.printf("%s: %d", words.get(i), count);
 		}
 	} // main
 	
 	public static void selectWords(ArrayList<String> words, int count) {
+		ArrayList<String> uniqueWords = new ArrayList<String>();
+		ArrayList<Integer> counts = new ArrayList<Integer>();
+		
+		for (int i = 0; i < words.size(); i++) {
+			String current = words.get(i);
+			if (current.equals(uniqueWords.get(i))) {
+				
+			}
+		}
+			
 	}
 }
