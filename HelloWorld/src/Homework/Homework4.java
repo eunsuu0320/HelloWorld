@@ -31,6 +31,5 @@ public class Homework4 {
 	} // main
 	
 	public static void selectWords(ArrayList<String> words, int count) {
-		if ()
 	}
 }
