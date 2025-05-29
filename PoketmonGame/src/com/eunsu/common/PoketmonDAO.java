@@ -27,15 +27,14 @@ public class PoketmonDAO extends DAO {
 		return 0;
 	}
 	
-	// choice 0으로 변경 (내 포켓몬 아님)
-	public int choiceRemove(String name) {
-		String sql = "update poketmon " + "set choice = ?" + "where name = ?";
+	// choice 0으로 전체변경 (내 포켓몬 아님)
+	public int choiceRemove() {
+		String sql = "update poketmon " + "set choice = ?";
 		
 		getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, 0);
-			psmt.setString(2, name);
 			int r = psmt.executeUpdate();
 			return r;
 		} catch (SQLException e) {
@@ -69,6 +68,8 @@ public class PoketmonDAO extends DAO {
 			}			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disConnect();
 		}
 		return list;
 	}

@@ -14,8 +14,8 @@ public class PoketmonServiceDAO implements PoketmonService {
 	} 
 
 	@Override
-	public boolean choiceRemove(String name) {
-		return dao.choiceRemove(name) == 1;
+	public boolean choiceRemove() {
+		return dao.choiceRemove() == 1;
 	}
 	
 	@Override
