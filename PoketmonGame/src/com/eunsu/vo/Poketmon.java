@@ -7,7 +7,7 @@ public class Poketmon {
 	String skil1;
 	String skil2;
 	String skil3;
-	int choice;
+	int choice; 
 	
 	public Poketmon() {}
 

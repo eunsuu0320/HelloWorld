@@ -11,6 +11,6 @@ public class SkilServiceDAO implements SkilService {
 	@Override
 	public List<Skil> poketmonSkil() {
 		return dao.skilSelect();
-	}
+	} 
 	
 }

@@ -6,4 +6,4 @@ import com.eunsu.vo.Skil;
 
 public interface SkilService {
 	List<Skil> poketmonSkil(); 
-}
+} 

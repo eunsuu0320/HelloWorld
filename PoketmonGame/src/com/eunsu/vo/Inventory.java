@@ -9,7 +9,7 @@ public class Inventory {
 		super();
 		this.poketball = poketball;
 		this.snack = snack;
-		this.money = money;
+		this.money = money; 
 	}
 	
 	public int getPoketball() {

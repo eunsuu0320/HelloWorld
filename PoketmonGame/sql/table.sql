@@ -5,7 +5,7 @@ CREATE TABLE poketmon
    skil1 VARCHAR2(100) NOT NULL,
    skil2 VARCHAR2(100) NOT NULL,
    skil3 VARCHAR2(100) NOT NULL,
-   choice NUMBER DEFAULT 0);
+   choice NUMBER DEFAULT 0); 
    
 DROP TABLE poketmon;
    

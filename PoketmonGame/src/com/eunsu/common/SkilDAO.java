@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.eunsu.vo.Skil;
-
+ 
 public class SkilDAO extends DAO {
 	public List<Skil> skilSelect() {
 		String sql = "select * from skil";

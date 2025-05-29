@@ -5,7 +5,7 @@ public class Skil {
 	int damage;
 	
 	public Skil () {}
-
+ 
 	public Skil(String pName, String skilName, int damage) {
 		this.skilName = skilName;
 		this.damage = damage;

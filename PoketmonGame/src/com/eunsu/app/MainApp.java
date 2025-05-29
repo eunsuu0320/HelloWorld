@@ -89,7 +89,7 @@ public class MainApp {
 			System.out.println("-------------------------------");
 			System.out.print("선택 >> ");
 			int selectPoketmon = Integer.parseInt(scn.nextLine());
-			list = psd.PoketmonList();
+			list = psd.PoketmonList(); 
 
 			switch (selectPoketmon) {
 			case 1:

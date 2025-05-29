@@ -7,7 +7,7 @@ import java.util.List;
 import com.eunsu.vo.Poketmon;
 
 public class PoketmonDAO extends DAO {
-	
+	 
 	// choice 1로 변경 (내 포켓몬)
 	public int poketmonChoice(String name) {
 		String sql = "update poketmon " + "set choice = ? " + "where name = ?";
