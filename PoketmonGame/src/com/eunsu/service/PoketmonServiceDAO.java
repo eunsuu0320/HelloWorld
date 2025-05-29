@@ -23,4 +23,9 @@ public class PoketmonServiceDAO implements PoketmonService {
 		return dao.select();
 	}
 
+	@Override
+	public boolean changeHp(int damage, String name) {
+		return dao.updateHp(damage, name) == 1;
+	}
+
 }

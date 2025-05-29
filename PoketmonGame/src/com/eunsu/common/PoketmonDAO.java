@@ -45,6 +45,25 @@ public class PoketmonDAO extends DAO {
 		return 0;
 	}
 	
+	// 포켓몬 체력 조절
+	public int updateHp(int damage, String name) {
+		String sql = "update poketmon " + "set hp = ? " + "where name = ?";
+		
+		getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, damage);
+			psmt.setString(2, name);
+			int r = psmt.executeUpdate();
+			return r;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disConnect();
+		}
+		return 0;
+	}
+	
 	// 조회
 	public List<Poketmon> select() {
 		String sql = "select * from poketmon";

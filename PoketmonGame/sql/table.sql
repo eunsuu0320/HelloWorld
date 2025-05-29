@@ -5,12 +5,23 @@ CREATE TABLE poketmon
    skil1 VARCHAR2(100) NOT NULL,
    skil2 VARCHAR2(100) NOT NULL,
    skil3 VARCHAR2(100) NOT NULL,
-   choice NUMBER DEFAULT 0); 
+   choice NUMBER DEFAULT 0);
    
 DROP TABLE poketmon;
    
 select *
 from  poketmon;
+
+update poketmon
+set choice = 0;
+
+update poketmon
+set hp = 10
+where name = '파이리';
+
+update poketmon
+set choice = 1
+where name = '이상해씨';
 
 INSERT INTO poketmon (name, type, skil1, skil2, skil3)
 VALUES ('나인테일', '불', '전광석화', '불꽃진화', '도깨비불');
@@ -70,4 +81,30 @@ from   skil;
 delete 
 from  skil
 where skil_name = '방전';
+
+CREATE TABLE inventory
+  (poketball NUMBER,
+   snack     NUMBER,
+   star     NUMBER,
+   money     NUMBER);
+   
+insert into inventory (poketball, snack, star, money)
+values (0, 0, 0, 0);
+
+delete inventory;
+
+drop table inventory;
+
+select *
+from  inventory;
+
+update inventory
+set poketball = 0,
+    snack = 0,
+    money = 0;
+
+update inventory
+set poketball = 5,
+    snack = 0,
+    money = 500;
    
