@@ -1,6 +1,5 @@
 package com.eunsu.app;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -26,6 +25,7 @@ public class MainApp {
 			inven.get(0).getMoney());
 
 	boolean run = true;
+	boolean result = false;
 
 	public void execute() {
 		fristMain();
@@ -35,15 +35,19 @@ public class MainApp {
 			System.out.println("1.가방 2.포켓몬 3.상점 4.여행떠나기 5.새로 시작하기 6.게임종료(자동저장) 7.(체육관관장만나기(추후시간남으면))");
 			System.out.println("----------------------------------------------------------------------------------");
 			System.out.print("선택 >> ");
-			int selectNo = Integer.parseInt(scn.nextLine());
+			int selectNo = tryCatch(scn.nextLine());
+
+			if (selectNo == 0) {
+				continue;
+			}
 
 			switch (selectNo) {
 			case 1:
-				System.out.println("-------------------------");
-				System.out.println("포켓볼    스낵    별      코인");
-				System.out.println("-------------------------");
+				System.out.println("---------------------------");
+				System.out.println(" 포켓볼    스낵   스타      코인");
+				System.out.println("---------------------------");
 				inven = isd.invenSelect();
-				System.out.printf("%d개 %5d개 %4d개 %7dG\n\n", inventory.getPoketball(), inventory.getSnack(),
+				System.out.printf("%2d개 %5d개 %4d개 %7dG\n\n", inventory.getPoketball(), inventory.getSnack(),
 						inventory.getStar(), inventory.getMoney());
 				break;
 			case 2:
@@ -67,6 +71,7 @@ public class MainApp {
 			}
 		}
 		System.out.println("게임을 종료합니다.");
+		
 	} // execute
 
 	// 처음 시작 화면
@@ -116,6 +121,7 @@ public class MainApp {
 					inventory.setMoney(500);
 					inventory.setPoketball(5);
 					System.out.printf("스타터로 포켓볼 5개, 500코인을 획득했습니다!\n\n");
+					isd.plusInven(inventory);
 					break;
 				}
 			}
@@ -140,52 +146,77 @@ public class MainApp {
 	// 내 포켓몬 스킬 조회
 	public void skilSelect(String name) {
 		for (int i = 0; i < poketmon.size(); i++) {
-			if (poketmon.get(i).getName().equals(name)) {
-				skils = ssd.poketmonSkil();
-				System.out.println("---------------------------");
-				System.out.println("포켓몬        스킬        데미지");
-				System.out.println("---------------------------");
-				for (int j = 0; j < skils.size(); j++) {
-					// 스킬 내역 불러오기
-					if (poketmon.get(i).getSkil1().equals(skils.get(j).getSkilName())
-							|| poketmon.get(i).getSkil2().equals(skils.get(j).getSkilName())
-							|| poketmon.get(i).getSkil3().equals(skils.get(j).getSkilName())) {
-						System.out.printf("%s%10s%10d\n", poketmon.get(i).getName(), skils.get(j).getSkilName(),
-								skils.get(j).getDamage());
-					}
-				} // j for
+			if (poketmon.get(i).getChoice() == 1) {
+				if (poketmon.get(i).getName().equals(name)) {
+					skils = ssd.poketmonSkil();
+					System.out.println("---------------------------");
+					System.out.println("포켓몬        스킬        데미지");
+					System.out.println("---------------------------");
+					for (int j = 0; j < skils.size(); j++) {
+						// 스킬 내역 불러오기
+						if (poketmon.get(i).getSkil1().equals(skils.get(j).getSkilName())
+								|| poketmon.get(i).getSkil2().equals(skils.get(j).getSkilName())
+								|| poketmon.get(i).getSkil3().equals(skils.get(j).getSkilName())) {
+							System.out.printf("%s%10s%10d\n", poketmon.get(i).getName(), skils.get(j).getSkilName(),
+									skils.get(j).getDamage());
+							result = true;
+						}
+					} // j for
+					break;
+				}
 			}
 		} // i for
-	}
+		if (!result) {
+			System.out.printf("%s은(는) 내 포켓몬이 아닙니다!\n\n", name);
+		}
+	} // skilSelect
 
 	// 내 포켓몬 조회 및 세부 기능들
 	public void myPoketmon() {
-		while (true) {
+		result = false;
+		boolean holy = true;
+		while (holy) {
 			myPoketmonSelect();
 
 			System.out.println();
-			System.out.println("--------------------------------------");
-			System.out.println("1.자세히보기(이름 입력)  2.간식주기  3.돌아가기");
-			System.out.println("--------------------------------------");
+			System.out.println("------------------------------");
+			System.out.println(" 1.자세히보기  2.간식주기  3.돌아가기");
+			System.out.println("------------------------------");
 			System.out.print("선택 >> ");
-			String no = scn.nextLine();
+			int no = tryCatch(scn.nextLine());
 
-			try {
-				if (Integer.parseInt(no) == 2) {
-					System.out.print("간식을 줄 포켓몬을 입력하세요. >> ");
-					String pName = scn.nextLine();
+			if (no == 0) {
+				continue;
+			}
 
-					for (int i = 0; i < poketmon.size(); i++) {
+			switch (no) {
+			case 1:
+				System.out.print("자세히 볼 포켓몬을 입력하세요. >> ");
+				skilSelect(scn.nextLine());
+				break;
+			case 2:
+				result = false;
+
+				System.out.print("간식을 줄 포켓몬을 입력하세요. >> ");
+				String pName = scn.nextLine();
+
+				for (int i = 0; i < poketmon.size(); i++) {
+					if (poketmon.get(i).getChoice() == 1) {
 						if (poketmon.get(i).getName().equals(pName)) {
 							if (inventory.getSnack() != 0) {
 								if (poketmon.get(i).getHp() >= 100) {
-									System.out.printf("%s의 체력이 가득차있습니다!", poketmon.get(i).getName());
+									delay(poketmon.get(i).getName() + "의 체력이 가득차있습니다!\n\n");
+									result = true;
+								} else if (poketmon.get(i).getHp() <= 0) {
+									delay(poketmon.get(i).getName() + "의 체력이 바닥나 간식을 먹일 수 없습니다! 스타를 주세요!\n\n");
+									result = true;
 								} else {
 									inventory.setSnack(inventory.getSnack() - 1);
 									psd.changeHp(poketmon.get(i).getHp() + 30, poketmon.get(i).getName());
 									isd.plusInven(inventory);
-									System.out.printf("\n ••• ヾ(•ω•`)o\n %s에게 간식을 먹였습니다! 체력이 30 증가하였습니다!\n",
-											poketmon.get(i).getName());
+									delay("\n ••• ヾ(•ω•`)o\n " + poketmon.get(i).getName()
+											+ "에게 간식을 먹였습니다! 체력이 30 증가하였습니다!\n");
+									result = true;
 								}
 								break;
 							} else {
@@ -193,13 +224,14 @@ public class MainApp {
 							}
 						}
 					}
-				} else if (Integer.parseInt(no) == 3) {
-					break;
 				}
-			} catch (Exception e) {
-				for (int i = 0; i < poketmon.size(); i++) {
-					skilSelect(no);
-				} // i for
+				if (!result) {
+					System.out.printf("%s은(는) 내 포켓몬이 아닙니다!\n", pName);
+				}
+				break;
+			case 3:
+				holy = false;
+				break;
 			}
 			System.out.println();
 		}
@@ -213,13 +245,21 @@ public class MainApp {
 			System.out.println("   1.포켓볼 100G  2.스낵 50G  3.별 500G  4.돌아가기   ");
 			System.out.println("-----------------------------------------------");
 			System.out.print("선택 >> ");
-			int no = Integer.parseInt(scn.nextLine());
+			int no = tryCatch(scn.nextLine());
+
+			if (no == 0) {
+				continue;
+			}
+
 			if (no == 4) {
 				break;
 			} else {
 				System.out.print("구매할 수량을 입력하세요 >> ");
-				int count = Integer.parseInt(scn.nextLine());
+				int count = tryCatch(scn.nextLine());
 
+				if (count == 0) {
+					continue;
+				}
 				if (no == 1) {
 					if (inventory.getMoney() == 0 || inventory.getMoney() < count * 100) {
 						System.out.printf("코인이 부족하거나 없습니다!\n\n");
@@ -250,135 +290,298 @@ public class MainApp {
 				}
 			}
 		}
+		isd.plusInven(inventory);
 	} // store
 
 	// 여행 떠나기
 	public void travel() {
 		Poketmon pcPoketmon = new Poketmon();
 		Poketmon myPoketmon = new Poketmon();
+		String pcType = "";
+		String myType = "";
 
 		for (int i = 0; i < poketmon.size(); i++) {
 			int random = (int) (Math.random() * (poketmon.size()));
-			pcPoketmon = poketmon.get(random);
+			if (poketmon.get(i).getChoice() != 1) {
+				pcPoketmon = poketmon.get(random);
+				pcType = pcPoketmon.getType();
+			}
 		}
 
 		try {
+			System.out.println();
 			Thread.sleep(600);
 			System.out.printf("•  ");
 			Thread.sleep(600);
 			System.out.printf("•  ");
 			Thread.sleep(600);
 			System.out.printf("•  \n");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
+		if (pcPoketmon.getType().equals("전설")) {
+			System.out.println("---------------------------------");
+			delay("(っ °Д °;)っ 전설의 포켓몬 " + pcPoketmon.getName() + " 등장 !!!!\n");
+		} else {
 			System.out.println("----------------");
 			delay("야생의 " + pcPoketmon.getName() + " 등장!!\n");
+		}
 
+		int no;
+
+		while (true) {
 			System.out.println("----------------");
 			System.out.println("1.싸우기  2.도망가기");
 			System.out.println("----------------");
 			System.out.print("선택 >> ");
-			int no = Integer.parseInt(scn.nextLine());
+			no = tryCatch(scn.nextLine());
 
-			switch (no) {
-			case 1:
+			if (no == 0) {
+				continue;
+			}
+			break;
+		}
+
+		switch (no) {
+		case 1:
+			String myPoName = "";
+			while (true) {
+				result = false;
+
 				myPoketmonSelect();
 				System.out.println("-------------------------------------");
 				System.out.print("전장에 나갈 포켓몬을 이름을 입력하세요!! >> ");
-				String myPoName = scn.nextLine();
+				myPoName = scn.nextLine();
+
 				for (int i = 0; i < poketmon.size(); i++) {
+					if (!result) {
+						System.out.printf("\n내 포켓몬 중에서 선택해야해 !!\n");
+						continue;
+					}
+
+					if (poketmon.get(i).getChoice() == 1 && poketmon.get(i).getName().equals(myPoName)
+							&& poketmon.get(i).getHp() == 0) {
+						System.out.printf("%s는 체력이 없어서 싸울 수 없어!!\n", poketmon.get(i).getName());
+
+						continue;
+					}
+
 					if (poketmon.get(i).getChoice() == 1 && poketmon.get(i).getName().equals(myPoName)) {
 						myPoketmon = poketmon.get(i);
+						myType = myPoketmon.getType();
+						result = true;
+						break;
 					}
 				}
+				break;
+			} // while
 
-				while (true) {
-					System.out.println("-----------------------------");
-					System.out.printf("%s와 %s는 싸우기 시작했다!\n", pcPoketmon.getName(), myPoketmon.getName());
-					System.out.println("-----------------------------");
-					System.out.printf("%25s\n%25dHp\n\n %5s\n%5dHp\n", pcPoketmon.getName(), pcPoketmon.getHp(),
-							myPoketmon.getName(), myPoketmon.getHp());
-					System.out.println("-----------------------------");
+			System.out.println("-----------------------------");
+			System.out.printf("%s와 %s는 싸우기 시작했다!\n", pcPoketmon.getName(), myPoketmon.getName());
+			System.out.println("-----------------------------");
+			while (true) {
+				System.out.println("-----------------------------");
+				System.out.printf("%25s\n%25dHp\n\n %5s\n%5dHp\n", pcPoketmon.getName(), pcPoketmon.getHp(),
+						myPoketmon.getName(), myPoketmon.getHp());
+				System.out.println("-----------------------------");
 
-					System.out.println("내 차례!");
-					System.out.println("1.스킬쓰기 2.잡기");
-					int sOc = Integer.parseInt(scn.nextLine());
-					
-					switch (sOc) {
-					case 1:
-						skilSelect(myPoName);
-						System.out.printf("스킬을 입력해!! >> ");
-						String skName = scn.nextLine();
-						for (int i = 0; i < skils.size(); i++) {
-							if (skils.get(i).getSkilName().equals(skName)) {
+				System.out.println("내 차례!");
+				System.out.println("1.스킬쓰기 2.잡기");
+				int sOc = tryCatch(scn.nextLine());
+
+				if (sOc == 0) {
+					continue;
+				}
+
+				switch (sOc) {
+				case 1:
+					skilSelect(myPoName);
+					System.out.printf("스킬을 입력해!! >> ");
+					String skName = scn.nextLine();
+					for (int i = 0; i < skils.size(); i++) {
+						if (skils.get(i).getSkilName().equals(skName)) {
+							if (vsDouble(myType, pcType) == 0.7) {
+								delay("효과는 별로였다...\n");
+								pcPoketmon.setHp(pcPoketmon.getHp() - ((int) (skils.get(i).getDamage() * 0.7)));
+								delay(pcPoketmon.getName() + "은(는) " + (int) (skils.get(i).getDamage() * 0.7)
+										+ "Hp 만큼 데미지를 입었다!\n");
+							} else if (vsDouble(myType, pcType) == 1.4) {
+								delay("효과는 굉장했다!!!\n");
+								pcPoketmon.setHp(pcPoketmon.getHp() - ((int) (skils.get(i).getDamage() * 1.4)));
+								delay(pcPoketmon.getName() + "은(는) " + (int) (skils.get(i).getDamage() * 1.4)
+										+ "Hp 만큼 데미지를 입었다!\n");
+							} else if (vsDouble(myType, pcType) == 1) {
 								pcPoketmon.setHp(pcPoketmon.getHp() - skils.get(i).getDamage());
-								delay("\n" + pcPoketmon.getName() + "이(가) " + skils.get(i).getDamage()
-										+ "Hp 만큼 데미지를 입었다!!\n");
+								delay(pcPoketmon.getName() + "은(는) " + skils.get(i).getDamage() + "Hp 만큼 데미지를 입었다!\n");
 							}
-						}
-						break;
-					case 2:
-						delay("나는 포켓볼을 이용해 포획을 시도했다 !!");		
-						if (inventory.getPoketball() != 0) {
-							int persent = (int) (Math.random() * 10) + 1;
-							if (persent >= 4) {
-								inventory.setPoketball(inventory.getPoketball() - 1);
-								// 잡았을 때 포켓볼 1개 삭제 했고, 그 포켓몬 choice를 1로 변경은 해야함, 처음 화면으로 돌아가기도 했다.
-								delay("포획 성공!! 넌 내꺼야!");
-								execute();
-								break;
-							} else {
-								delay("포획에 실패했다 ..");	
-								break;
-							}
-						} else if (inventory.getPoketball() <= 0) {
-							delay("포켓볼이 없어서 잡을 수 없어!!");
-							break;
-						}
-						
-					}
-					System.out.println("------------");
-					System.out.printf("%s 차례!!\n", pcPoketmon.getName());
-					System.out.println();
-					delay("•••••\n");
-					System.out.println();
-					while (true) {
-						int ran = (int) (Math.random() * skils.size());
-						if (skils.get(ran).getSkilName().equals(pcPoketmon.getSkil1())
-								|| skils.get(ran).getSkilName().equals(pcPoketmon.getSkil2())
-								|| skils.get(ran).getSkilName().equals(pcPoketmon.getSkil3())) {
-							delay(pcPoketmon.getName() + "이(가) " + skils.get(ran).getSkilName() + "를 사용했다!!\n");
-							myPoketmon.setHp(myPoketmon.getHp() - skils.get(ran).getDamage());
-							delay(myPoketmon.getName() + "이(가) " + skils.get(ran).getDamage() + "Hp 만큼 데미지를 입었다!!\n\n");
 							break;
 						}
 					}
 					if (pcPoketmon.getHp() <= 0) {
-						System.out.println("싸움에서 승리했다 !!");
-					    int num = (int) (Math.random() * 100) + 1;
-					    inventory.setMoney(inventory.getMoney() + num);
-						System.out.printf("%dG의 코인을 획득했다!\n", num);
-						break;
-					} else if (myPoketmon.getHp() <= 0) {
-						System.out.println("싸움에서 패배했다 ..");
+						System.out.printf("\n싸움에서 승리했다 !!\n");
 						int num = (int) (Math.random() * 100) + 1;
-					    inventory.setMoney(inventory.getMoney() - num);
-						System.out.printf("%dG의 코인을 잃었다 ..\n", num);
+						inventory.setMoney(inventory.getMoney() + num);
+						System.out.printf("%dG의 코인을 획득했다!\n\n", num);
+						psd.changeHp(100, pcPoketmon.getName());
+						isd.plusInven(inventory);
 						break;
 					}
-				} // while
-				break;
-			case 2:
-				break;
-			default:
-				System.out.println("1번과 2번 중에서 선택하세요 !!");
+					break;
+				case 2:
+					delay("나는 포켓볼을 이용해 포획을 시도했다 !!\n");
+					if (inventory.getPoketball() != 0) {
+						int persent = (int) (Math.random() * 10) + 1;
+						if (pcPoketmon.getType().equals("전설")) { // 상대 포켓몬이 전설일 때 잡기 더 힘듦.
+							if (persent <= 2) {
+								inventory.setPoketball(inventory.getPoketball() - 1);
+								psd.poketmonChoice(pcPoketmon.getName());
+								psd.changeHp(pcPoketmon.getHp(), pcPoketmon.getName());
+								delay("포획 성공!! 넌 내꺼야!\n");
+								int num = (int) (Math.random() * 100) + 1;
+								inventory.setMoney(inventory.getMoney() + num);
+								System.out.printf("%dG의 코인을 획득했다!\n\n", num);
+								isd.plusInven(inventory);
+								execute();
+								return;
+							} else {
+								delay("포획에 실패했다 ..\n");
+								break;
+							}
+						}
+						if (pcPoketmon.getHp() <= 30) { // 상대 포켓몬 체력이 30 이하일 때 잡기 좀 더 쉬워지게 만듦.
+							if (persent <= 6) {
+								inventory.setPoketball(inventory.getPoketball() - 1);
+								psd.poketmonChoice(pcPoketmon.getName());
+								psd.changeHp(pcPoketmon.getHp(), pcPoketmon.getName());
+								delay("포획 성공!! 넌 내꺼야!\n");
+								int num = (int) (Math.random() * 100) + 1;
+								inventory.setMoney(inventory.getMoney() + num);
+								System.out.printf("%dG의 코인을 획득했다!\n\n", num);
+								isd.plusInven(inventory);
+								execute();
+								return;
+							} else {
+								delay("포획에 실패했다 ..\n");
+								break;
+							}
+						}
+						if (persent <= 4) { // 기본 잡을 확률
+							inventory.setPoketball(inventory.getPoketball() - 1);
+							psd.poketmonChoice(pcPoketmon.getName());
+							psd.changeHp(pcPoketmon.getHp(), pcPoketmon.getName());
+							delay("포획 성공!! 넌 내꺼야!\n");
+							int num = (int) (Math.random() * 100) + 1;
+							inventory.setMoney(inventory.getMoney() + num);
+							System.out.printf("%dG의 코인을 획득했다!\n\n", num);
+							isd.plusInven(inventory);
+							execute();
+							return;
+						} else {
+							delay("포획에 실패했다 ..\n");
+							break;
+						}
+					} else if (inventory.getPoketball() <= 0) {
+						delay("포켓볼이 없어서 잡을 수 없어!!\n");
+						break;
+					}
+
+				}
+				System.out.println("------------");
+				System.out.printf("%s 차례!!\n", pcPoketmon.getName());
+				System.out.println();
+				delay("•••••\n");
+				System.out.println();
+				while (true) {
+					int ran = (int) (Math.random() * skils.size());
+					if (skils.get(ran).getSkilName().equals(pcPoketmon.getSkil1())
+							|| skils.get(ran).getSkilName().equals(pcPoketmon.getSkil2())
+							|| skils.get(ran).getSkilName().equals(pcPoketmon.getSkil3())) {
+						delay(pcPoketmon.getName() + "이(가) " + skils.get(ran).getSkilName() + "를 사용했다!!\n");
+						if (vsDouble(pcType, myType) == 0.7) {
+							delay("효과는 별로였다...\n");
+							myPoketmon.setHp(myPoketmon.getHp() - ((int) (skils.get(ran).getDamage() * 0.7)));
+							delay(myPoketmon.getName() + "은(는) " + (int) (skils.get(ran).getDamage() * 0.7)
+									+ "Hp 만큼 데미지를 입었다!\n");
+						} else if (vsDouble(pcType, myType) == 1.4) {
+							delay("효과는 굉장했다!!!\n");
+							myPoketmon.setHp(myPoketmon.getHp() - ((int) (skils.get(ran).getDamage() * 1.4)));
+							delay(myPoketmon.getName() + "은(는) " + (int) (skils.get(ran).getDamage() * 1.4)
+									+ "Hp 만큼 데미지를 입었다!\n");
+						} else if (vsDouble(pcType, myType) == 1) {
+							myPoketmon.setHp(myPoketmon.getHp() - skils.get(ran).getDamage());
+							delay(myPoketmon.getName() + "은(는) " + skils.get(ran).getDamage() + "Hp 만큼 데미지를 입었다\n!");
+						}
+						break;
+					}
+				}
+				if (myPoketmon.getHp() <= 0) {
+					System.out.printf("\n싸움에서 패배했다 ..\n");
+					int num = (int) (Math.random() * 100) + 1;
+					inventory.setMoney(inventory.getMoney() - num);
+					psd.changeHp(0, myPoketmon.getName());
+					System.out.printf("%dG의 코인을 잃었다 ..\n\n", num);
+					break;
+				}
+			} // while
+			break;
+		case 2:
+			int runn = (int) (Math.random() * 10) + 1;
+			if (runn >= 7) {
+				delay("도망치지 못했다! 싸울 수 밖에!!\n\n");
+//				continue;
 			}
-
-		} catch (
-
-		InterruptedException e) {
-			e.printStackTrace();
+			if (runn <= 6) {
+				delay("휴... 다행히 도망쳤다.\n\n");
+				break;
+			}
+		default:
+			System.out.println("1번과 2번 중에서 선택하세요 !!");
 		}
 
+	}
+
+	// 상성 int
+	public double vsDouble(String type1, String type2) {
+		if (type1.equals("불")) {
+			if (type2.equals("불") || type2.equals("물")) {
+				return 0.7;
+			} else if (type2.equals("풀")) {
+				return 1.4;
+			} else if (type2.equals("전기") || type2.equals("전설")) {
+				return 1;
+			}
+		} else if (type1.equals("물")) {
+			if (type2.equals("물") || type2.equals("풀")) {
+				return 0.7;
+			} else if (type2.equals("불")) {
+				return 1.4;
+			} else if (type2.equals("전기") || type2.equals("전설")) {
+				return 1;
+			}
+		} else if (type1.equals("풀")) {
+			if (type2.equals("풀") || type2.equals("불")) {
+				return 0.7;
+			} else if (type2.equals("물")) {
+				return 1.4;
+			} else if (type2.equals("전기") || type2.equals("전설")) {
+				return 1;
+			}
+		} else if (type1.equals("전기")) {
+			if (type2.equals("전기") || type2.equals("풀")) {
+				return 0.7;
+			} else if (type2.equals("물")) {
+				return 1.4;
+			} else if (type2.equals("불") || type2.equals("전설")) {
+				return 1;
+			}
+		} else if (type1.equals("전설")) {
+			if (type2.equals("전기") || type2.equals("불") || type2.equals("물") || type2.equals("풀")
+					|| type2.equals("전설")) {
+				return 1;
+			}
+		}
+		return 0;
 	}
 
 	// 초기화
@@ -408,6 +611,7 @@ public class MainApp {
 				continue;
 			}
 		}
+
 	} // reset;
 
 	// 딜레이
@@ -419,6 +623,17 @@ public class MainApp {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public int tryCatch(String next) {
+		int no;
+		try {
+			no = Integer.parseInt(scn.nextLine());
+			return no;
+		} catch (NumberFormatException e) {
+			System.out.println("올바른 번호를 입력하세요!");
+			return 0;
 		}
 	}
 }
