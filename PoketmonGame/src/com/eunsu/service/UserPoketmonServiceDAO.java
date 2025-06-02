@@ -14,8 +14,8 @@ public class UserPoketmonServiceDAO implements UserPoketmonService {
 	}
 
 	@Override
-	public boolean uPoketUpdate(UserPoketmon uPoket) {
-		return dao.uPoketUpdate(uPoket) == 1;
+	public boolean uPoketDelete(String id) {
+		return dao.uPoketDelete(id) == 1;
 	}
 
 	@Override

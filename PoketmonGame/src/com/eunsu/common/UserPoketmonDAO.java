@@ -30,18 +30,14 @@ public class UserPoketmonDAO extends DAO {
 	}
 	
 	//update
-	public int uPoketUpdate(UserPoketmon uPoket) {
-		String sql = "update user_poketmon "
-				+ "set poketmon_name = ?, hp = ? "
-				+ "where id = ?";
-		
+	public int uPoketDelete(String id) {
+		String sql = "delete from user_poketmon where id = ? ";
 		getConnect();
-		
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, uPoket.getPoketmonName());
-			psmt.setInt(2, uPoket.getHp());
-			psmt.setString(3, uPoket.getId());
+			
+			psmt.setString(1, id);
+			
 			int r = psmt.executeUpdate();
 			return r;
 		} catch (SQLException e) {
