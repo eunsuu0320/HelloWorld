@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.common.Control;
+import com.yedam.service.BoardService;
+import com.yedam.service.BoardServiceImpl;
 import com.yedam.vo.BoardVO;
 
 public class AddBoardControl implements Control{
@@ -29,7 +31,7 @@ public class AddBoardControl implements Control{
 			board.setContent(content);
 			board.setWriter(writer);
 			
-			BoardService sve = new BoardServiceImpl();
+			BoardService svc = new BoardServiceImpl();
 			if (svc.registerBoard(board)) {
 				System.out.println("등록 성공");
 				// 목록 페이지로 이동

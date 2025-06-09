@@ -6,12 +6,38 @@
 
 
 	<!-- 조회 -->
-	<select id="selectList" resultType="board">
+	<select id="selectList" resultType="Board">
 		select * from tbl_board
+		order by board_no desc
+	</select>
+	
+	<!-- 페이징 조회 -->
+	<select id="selectListWithPaging" parameterType="int" resultType="Board">
+	select b.*
+	from (select rownum rn, a.*
+		   from (select *
+		   		 from tbl_board
+		   		 order by board_no desc) a) b
+		   where b.rn > (#{page} - 1) * 5
+		   <![CDATA[
+    and   b.rn <= #{page} * 5
+    ]]>
+	</select>
+	
+	<!-- 상세 조회 -->
+	<select id="selectBoard" parameterType="int" resultType="Board">
+	select board_no
+           ,title
+           ,content
+           ,writer
+           ,write_date
+           ,read_cnt
+     from tbl_board
+     where board_no #{bno}
 	</select>
 
 	<!-- 등록 -->
-	<insert id="insertBoard" parameterType="board">
+	<insert id="insertBoard" parameterType="Board">
 		insert into tbl_board
 		(board_no, title, content, writer)
 		values (board_seq.nextval, #{title},
@@ -19,7 +45,7 @@
 	</insert>
 
 	<!-- 수정 -->
-	<update id="updateBoard" parameterType="board">
+	<update id="updateBoard" parameterType="Board">
 		update tbl_board
 		<set>
 			<if test="title != null">

@@ -13,13 +13,13 @@ public class BoardServiceImpl implements BoardService {
 	BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
 	
 	@Override
-	public List<BoardVO> boardList() {
-		return mapper.selectList();
+	public List<BoardVO> boardList(int page) {
+		return mapper.selectListWithPaging(page);
 	}
 
 	@Override
 	public BoardVO getBoard(int bno) {
-		BoardVO board = mapper.selectBoard(bno);
+		BoardVO board = mapper.selectBoard(bno); // 글 번호 -> 조회
 		if (board != null) {
 			mapper.updateReadCnt(bno); // 글 번호 -> 조회수 증가
 			sqlSession.commit();
@@ -29,8 +29,28 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public boolean registerBoard(BoardVO board) {
-		int r = mapper.insertBoard(board);
+		int r = mapper.insertBoard(board); // 처리된 건수 반환
 		
+		if (r == 1) {
+			sqlSession.commit();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean modifyBoard(BoardVO board) {
+		int r = mapper.updateBoard(board);
+		if (r == 1) {
+			sqlSession.commit();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean removeBoard(int bno) {
+		int r = mapper.deleteBoard(bno);
 		if (r == 1) {
 			sqlSession.commit();
 			return true;

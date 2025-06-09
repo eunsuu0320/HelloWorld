@@ -8,9 +8,11 @@ import com.yedam.vo.BoardVO;
  * 인터페이스(BoardMapper) - xml(BoardMapper.xml) 매칭 
  */
 public interface BoardMapper {
-	public List<BoardVO> selectList();
-	public int insertBoard(BoardVO board); // 
+	public List<BoardVO> selectList(); //목록. 사용X
+	public List<BoardVO> selectListWithPaging(int page);
+	public BoardVO selectBoard(int bno); //단건조회.
+	public int updateReadCnt(int bno); //조회count증가.
+	public int insertBoard(BoardVO board);
 	public int updateBoard(BoardVO board);
 	public int deleteBoard(int bno);
-	
 }
