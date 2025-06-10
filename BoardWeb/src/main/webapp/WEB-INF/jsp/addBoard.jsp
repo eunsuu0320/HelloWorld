@@ -1,14 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head><%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <jsp:include page="../include/header.jsp" />
-  <h3>글등록화면(addBoard.jsp)</h3>
+  <h3>글 등록</h3>
   <form action="addBoard.do" method="post">
     <table class="table">
       <tr>

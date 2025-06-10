@@ -42,7 +42,8 @@ public class FrontController extends HttpServlet {
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// url이 호출(http://localhost:8080/BoardWeb/boardList.do) -> 페이지 호출 -> Control.
 				String uri = req.getRequestURI(); // /BoardWeb/boardList.do
-				String page = uri.substring(9); // /boardList.do
+				String context = req.getContextPath(); // BoardWeb or Helloworld
+				String page = uri.substring(context.length()); // /boardList.do
 				Control sub = map.get(page);
 				sub.exec(req, resp);
 	}

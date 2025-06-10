@@ -5,10 +5,16 @@
 <h3>수정화면(modifyForm.jsp)</h3>
 <%
   BoardVO board = (BoardVO) request.getAttribute("board");
+String pg = (String) request.getAttribute("page");
+	String sc = (String) request.getAttribute("searchCondition");
+	String kw = (String) request.getAttribute("keyword");
 %>
 
 <form action="modifyBoard.do" method="post">
   <input type="hidden" name="bno" value="<%=board.getBoardNo() %>">
+  <input type="hidden" name="page" value="<%=pg%>">
+    <input type="hidden" name="searchCondition" value="<%=sc%>">
+    <input type="hidden" name="keyword" value="<%=kw%>">
   <table class="table">
     <tr>
         <th>글번호</th><td><%=board.getBoardNo() %></td>
@@ -29,10 +35,16 @@
     <tr>
         <td colspan="4" align="center">
             <input type="submit" value="저장" class="btn btn-warning">
-            <button class="btn btn-danger">삭제</button>
+            <button class="btn btn-danger" type="button">삭제</button>
         </td>
     </tr>
   </table>
 </form>
-
+<script>
+    let bno = "<%=board.getBoardNo() %>";
+    console.log(bno);
+    document.querySelector('button.btn-danger').addEventListener('click', function () {
+        location.href = 'removeBoard.do?bno=' + bno;
+    })
+</script>
 <jsp:include page="../include/footer.jsp" />
