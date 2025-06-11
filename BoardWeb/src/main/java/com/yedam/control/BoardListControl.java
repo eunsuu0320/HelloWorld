@@ -50,7 +50,7 @@ public class BoardListControl implements Control {
 		req.setAttribute("search", search);
 		
 		// 요청재지정(페이지 이동)
-		req.getRequestDispatcher("WEB-INF/jsp/boardList.jsp").forward(req, resp);
+		req.getRequestDispatcher("user/boardList.tiles").forward(req, resp);
 	}
 
 }

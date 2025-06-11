@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.yedam.common.Control;
 import com.yedam.service.MemberService;
@@ -26,7 +27,14 @@ public class LoginControl implements Control {
 		// 성공여부 체크
 		if (member != null) {
 			// 글 등록 화면
-			resp.sendRedirect("addBoard.do");
+			HttpSession session = req.getSession();
+			session.setAttribute("logId", member.getMemberId());
+			// 권한에 따라 시작 페이지 지정
+			if (member.getResponsibility().equals("User")) {
+				resp.sendRedirect("addBoard.do");				
+			} else if (member.getResponsibility().equals("Admin")) {
+				resp.sendRedirect("memberList.do");
+			}
 		} else {
 			// 로그인화면으로 이동
 			req.setAttribute("msg", "ID와 PW를 확인하세요");
