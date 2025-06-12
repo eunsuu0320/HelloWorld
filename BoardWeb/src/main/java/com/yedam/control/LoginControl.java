@@ -29,6 +29,7 @@ public class LoginControl implements Control {
 			// 글 등록 화면
 			HttpSession session = req.getSession();
 			session.setAttribute("logId", member.getMemberId());
+			session.setAttribute("auth", member.getResponsibility());
 			// 권한에 따라 시작 페이지 지정
 			if (member.getResponsibility().equals("User")) {
 				resp.sendRedirect("addBoard.do");				
