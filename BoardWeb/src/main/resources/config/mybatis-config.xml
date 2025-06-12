@@ -11,6 +11,7 @@
 		<typeAlias alias="Board" type="com.yedam.vo.BoardVO" />
 		<typeAlias alias="Search" type="com.yedam.common.SearchDTO"/>
 		<typeAlias alias="Member" type="com.yedam.vo.MemberVO"/>
+		<typeAlias alias="Reply" type="com.yedam.vo.ReplyVO"/>
 	</typeAliases>
 	
 	<environments default="development">
@@ -29,5 +30,6 @@
 	<mappers>
 		<mapper resource="com/yedam/mapper/BoardMapper.xml" />
 		<mapper resource="com/yedam/mapper/MemberMapper.xml" />
+		<mapper resource="com/yedam/mapper/ReplyMapper.xml" />
 	</mappers>
 </configuration>

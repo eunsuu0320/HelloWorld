@@ -11,15 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.control.AddBoardControl;
+import com.yedam.control.AddReplyControl;
 import com.yedam.control.AllControl;
 import com.yedam.control.BoardControl;
 import com.yedam.control.BoardListControl;
+import com.yedam.control.GetReplytControl;
 import com.yedam.control.LoginControl;
 import com.yedam.control.LoginFormControl;
 import com.yedam.control.LogoutControl;
 import com.yedam.control.MemberListControl;
 import com.yedam.control.ModifyBoardControl;
 import com.yedam.control.RemoveBoardControl;
+import com.yedam.control.RemoveReplyControl;
+import com.yedam.control.ReplyListControl;
 
 /*
  * M-V-C
@@ -40,7 +44,13 @@ public class FrontController extends HttpServlet {
 		map.put("/board.do", new BoardControl()); // 상세화면.
 		map.put("/addBoard.do", new AddBoardControl());
 		map.put("/modifyBoard.do", new ModifyBoardControl()); // 수정화면
-		map.put("/removeBoard.do", new RemoveBoardControl()); // 삭제화면
+		map.put("/removeBoard.do", new RemoveBoardControl()); // 삭제화면 
+		
+		// 댓글 jsp파일
+		map.put("/replyList.do", new ReplyListControl()); // 목록
+		map.put("/addReply.do", new AddReplyControl()); // 등록
+		map.put("/removeReply.do", new RemoveReplyControl()); // 삭제
+		map.put("/getReply.do", new GetReplytControl()); // 단건조회
 		
 		// member관련
 		map.put("/loginForm.do", new LoginFormControl()); // 화면
@@ -51,7 +61,7 @@ public class FrontController extends HttpServlet {
 		map.put("/memberList.do", new MemberListControl());
 		
 		// 연습
-		map.put("/all", new AllControl());
+		map.put("/allproduct.do", new AllControl());
 	}
 
 	@Override
