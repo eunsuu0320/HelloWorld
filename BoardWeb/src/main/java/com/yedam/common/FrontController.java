@@ -23,6 +23,8 @@ import com.yedam.control.MemberListControl;
 import com.yedam.control.ModifyBoardControl;
 import com.yedam.control.RemoveBoardControl;
 import com.yedam.control.RemoveReplyControl;
+import com.yedam.control.ReplyCountControl;
+import com.yedam.control.ReplyInfoControl;
 import com.yedam.control.ReplyListControl;
 
 /*
@@ -46,11 +48,13 @@ public class FrontController extends HttpServlet {
 		map.put("/modifyBoard.do", new ModifyBoardControl()); // 수정화면
 		map.put("/removeBoard.do", new RemoveBoardControl()); // 삭제화면 
 		
-		// 댓글 jsp파일
+		// 댓글 json파일
 		map.put("/replyList.do", new ReplyListControl()); // 목록
 		map.put("/addReply.do", new AddReplyControl()); // 등록
 		map.put("/removeReply.do", new RemoveReplyControl()); // 삭제
 		map.put("/getReply.do", new GetReplytControl()); // 단건조회
+		map.put("/replyCount.do", new ReplyCountControl()); // 댓글건수.
+		map.put("/replyInfo.do", new ReplyInfoControl());
 		
 		// member관련
 		map.put("/loginForm.do", new LoginFormControl()); // 화면

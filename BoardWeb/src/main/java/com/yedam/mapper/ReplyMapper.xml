@@ -4,39 +4,48 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.mapper.ReplyMapper">
 
-<!-- 추가 -->
-<insert id="insertReply" parameterType="Reply">
-  insert into tbl_reply (reply_no, board_no, reply, replyer)
-  values (reply_seq.nextval, #{boardNo}, #{reply}, #{replyer})
-</insert>
+	<!-- 추가 -->
+	<insert id="insertReply" parameterType="Reply">
+		insert into tbl_reply (reply_no, board_no, reply, replyer)
+		values (reply_seq.nextval, #{boardNo}, #{reply}, #{replyer})
+	</insert>
 
-<!-- 조회 -->
-<select id="selectReplyList" parameterType="int" resultType="Reply">
-  select  reply_no
-         ,board_no
-         ,reply
-         ,replyer
-         ,reply_date
-  from   tbl_reply
-  where  board_no = #{bno}
-</select>
+	<!-- 조회 -->
+	<select id="selectReplyList" parameterType="int"
+		resultType="Reply">
+		select a.*
+		from (select /*+INDEX_DESC (r pk_reply) */rownum rn, r.*
+		from tbl_reply r
+		where board_no = #{bno}) a
+		where a.rn > (#{page} - 1) * 5
+		<![CDATA[
+		and   a.rn <= (#{page} * 5)
+		]]>
+	</select>
 
-<!-- 단건 조회 -->
-<select id="selectReply" parameterType="int" resultType="Reply">
- select  reply_no
-         ,board_no
-         ,reply
-         ,replyer
-         ,reply_date
-  from   tbl_reply
-  where  reply_no = #{rno}
-</select>
+	<!-- 단건 조회 -->
+	<select id="selectReply" parameterType="int" resultType="Reply">
+		select reply_no
+		,board_no
+		,reply
+		,replyer
+		,reply_date
+		from tbl_reply
+		where reply_no = #{rno}
+	</select>
 
-<!-- 삭제 -->
-<delete id="removeReply" parameterType="int">
-  delete 
-  from   tbl_reply
-  where  reply_no = #{rno}
-</delete>
+	<!-- 삭제 -->
+	<delete id="removeReply" parameterType="int">
+		delete
+		from tbl_reply
+		where reply_no = #{rno}
+	</delete>
+	
+	<!-- 댓글건수 -->
+	<select id="selectTotal" parameterType="int" resultType="int">
+	    select count(1)
+	    from tbl_reply
+	    where board_no = #{bno}
+	</select>
 
 </mapper>

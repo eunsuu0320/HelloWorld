@@ -1,4 +1,4 @@
-package com.yedam.service;
+	package com.yedam.service;
 
 import java.util.List;
 
@@ -24,8 +24,8 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public List<ReplyVO> replyList(int bno) {
-		return mapper.selectReplyList(bno);
+	public List<ReplyVO> replyList(int bno, int page) {
+		return mapper.selectReplyList(bno, page);
 	}
 
 	@Override
@@ -42,6 +42,12 @@ public class ReplyServiceImpl implements ReplyService {
 			return true;
 		}
 		return false;
+	}
+
+
+	@Override
+	public int totalCount(int bno) {
+		return mapper.selectTotal(bno);
 	}
 
 }
