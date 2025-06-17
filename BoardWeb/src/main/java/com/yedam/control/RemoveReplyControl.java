@@ -21,10 +21,10 @@ public class RemoveReplyControl implements Control {
 		ReplyService svc = new ReplyServiceImpl();
 		if (svc.removeReply(Integer.parseInt(rno))) {
 			// {"retCoed" : "Success"
-			resp.getWriter().print("{\"retCode\": \"Sussess\"}");
+			resp.getWriter().print("{\"retCode\": \"Success\"}");
 		} else {
 			// {"retCode" : "Fail"}
-			resp.getWriter().print("{\"retCode\": \"Sussess\"}");
+			resp.getWriter().print("{\"retCode\": \"Success\"}");
 		}
 
 	}

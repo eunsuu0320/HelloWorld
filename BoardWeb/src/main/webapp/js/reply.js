@@ -20,11 +20,13 @@ Date.prototype.format = function() {
 showReplyList();
 function showReplyList() {
 	document.querySelector('#target').innerHTML = ""; // 목록지우기.
+	
 	// 건수체크해서 마지막 페이지가 맞는지 확인하기.
 	svc.replyCount(bno, (result) => {
 		console.log(result);
 		let lastPage = Math.ceil(result.totalCnt / 5);
-		page = page > lastPage ? lastPage : page; // 현재마지막 페이지 계산하기.
+		page = page > lastPage && lastPage != 0 ? lastPage : page; // 현재마지막 페이지 계산하기.
+		
 		// 바뀐페이지로 목록출력하기.
 		svc.replyList({ bno, page } //게시글번호
 			, result => {
@@ -75,6 +77,7 @@ function addReplyHandler(e) {
 				page = 1; //첫페이지로 지정.
 				showReplyList(); // 목록출력.
 				document.querySelector('#reply').value = ""; // 입력값 초기화.
+				alert("등록성공");
 			} // end of if.
 		} // 두번째 매개값.
 		, err => console.log(err) // 세번째 매개값.

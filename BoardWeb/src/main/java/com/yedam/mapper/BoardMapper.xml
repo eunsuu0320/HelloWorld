@@ -20,13 +20,16 @@
 		from (select *
 		from tbl_board
 		<choose>
-			<when test="searchCondition != null and searchCondition == 'T'.toString()">
+			<when
+				test="searchCondition != null and searchCondition == 'T'.toString()">
 				where title like '%'||#{keyword}||'%'
 			</when>
-			<when test="searchCondition != null and searchCondition == 'W'.toString()">
+			<when
+				test="searchCondition != null and searchCondition == 'W'.toString()">
 				where writer like '%'||#{keyword}||'%'
 			</when>
-			<when test="searchCondition != null and searchCondition == 'TW'.toString()">
+			<when
+				test="searchCondition != null and searchCondition == 'TW'.toString()">
 				where (title like '%'||#{keyword}||'%') or (writer like
 				'%'||#{keyword}||'%')
 			</when>
@@ -40,14 +43,16 @@
 
 	<!-- 상세 조회 -->
 	<select id="selectBoard" parameterType="int" resultType="Board">
-		select board_no
+		select
+		board_no
 		,title
 		,content
 		,writer
 		,write_date
 		,read_cnt
 		from tbl_board
-		where board_no = #{bno}
+		where
+		board_no = #{bno}
 	</select>
 
 	<!-- 전체카운트 계산 -->
@@ -55,14 +60,18 @@
 		select COUNT(board_no)
 		from tbl_board
 		<choose>
-			<when test="searchCondition != null and searchCondition == 'T'.toString()">
+			<when
+				test="searchCondition != null and searchCondition == 'T'.toString()">
 				where title like '%'||#{keyword}||'%'
 			</when>
-			<when test="searchCondition != null and searchCondition == 'W'.toString()">
+			<when
+				test="searchCondition != null and searchCondition == 'W'.toString()">
 				where writer like '%'||#{keyword}||'%'
 			</when>
-			<when test="searchCondition != null and searchCondition == 'TW'.toString()">
-				where (title like '%'||#{keyword}||'%') or (writer like '%'||#{keyword}||'%')
+			<when
+				test="searchCondition != null and searchCondition == 'TW'.toString()">
+				where (title like '%'||#{keyword}||'%') or (writer like
+				'%'||#{keyword}||'%')
 			</when>
 		</choose>
 	</select>
@@ -105,5 +114,37 @@
 		delete
 		from tbl_board
 		where board_no = #{boardNo}
+	</delete>
+
+	<select id="selectUserByCount" resultType="map">
+		select writer as "writer", 
+		       member_name as "memberName", 
+		       count(1) as "cnt"
+		from tbl_board b
+		join tbl_member m
+		on b.writer = m.member_id
+		group by writer, member_name
+	</select>
+	
+	<!-- 이벤트 -->
+	<!-- 조회 -->
+	<select id="selectEvent" resultType="Event">
+	select *
+	from   tbl_events
+	</select>
+
+	<!-- 추가 -->
+	<insert id="insertEvent" parameterType="Event">
+	insert into tbl_events (title, event_start, event_end)
+	values (#{title}, #{eventStart}, #{eventEnd})
+	</insert>
+	
+	<!-- 삭제 -->
+	<delete id="deleteEvent" parameterType="Event">
+	delete 
+	from  tbl_events
+	where title = #{title}
+	  and start = #{eventStart}
+	  and end = #{eventEnd}
 	</delete>
 </mapper>
