@@ -32,8 +32,8 @@ public class AddEventControl implements Control {
 		
 		EventVO event = new EventVO();
 		event.setTitle(title);
-		event.setEventStart(start);
-		event.setEventEnd(end);
+		event.setStart(start);
+		event.setEnd(end);
 		
 		BoardService svc = new BoardServiceImpl();
 		if (svc.addEvenet(event)) {

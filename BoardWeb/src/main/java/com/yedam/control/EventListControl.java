@@ -27,11 +27,8 @@ public class EventListControl implements Control {
 		BoardService svc = new BoardServiceImpl();
 		List<EventVO> list = svc.eventList();
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("data", list);
-		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(map);
+		String json = gson.toJson(list);
 		System.out.println(json);
 		
 		PrintWriter out = resp.getWriter();

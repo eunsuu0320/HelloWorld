@@ -23,8 +23,8 @@ public class RemoveEventControl implements Control {
 		
 		EventVO evo = new EventVO();
 		evo.setTitle(title);
-		evo.setEventStart(start);
-		evo.setEventEnd(end);
+		evo.setStart(start);
+		evo.setEnd(end);
 		
 		BoardService svc = new BoardServiceImpl();
 		if (svc.removeEvent(evo)) {

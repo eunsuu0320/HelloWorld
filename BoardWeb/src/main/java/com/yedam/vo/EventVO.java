@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class EventVO {
 	private String title;
-	private String eventStart;
-	private String eventEnd;
+	private String start;
+	private String end;
 }

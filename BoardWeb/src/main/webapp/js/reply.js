@@ -155,6 +155,7 @@ function makeTemplate(reply = {}) {
 	`;
 	return template; // <li>...</li> 반환.
 }
+
 // 댓글삭제함수.
 async function deleteReply(e) {
 	let rno = e.target.parentElement.parentElement.dataset.rno;
@@ -177,5 +178,4 @@ async function deleteReply(e) {
 		}
 		, err => console.log(err)
 	);// 삭제메소드.
-
 } // end of deleteReply.

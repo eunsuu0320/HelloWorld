@@ -129,14 +129,16 @@
 	<!-- 이벤트 -->
 	<!-- 조회 -->
 	<select id="selectEvent" resultType="Event">
-	select *
+	select title, 
+	       event_start as "start",
+	       event_end   as "end"
 	from   tbl_events
 	</select>
 
 	<!-- 추가 -->
 	<insert id="insertEvent" parameterType="Event">
 	insert into tbl_events (title, event_start, event_end)
-	values (#{title}, #{eventStart}, #{eventEnd})
+	values (#{title}, #{start}, #{end})
 	</insert>
 	
 	<!-- 삭제 -->
@@ -144,7 +146,7 @@
 	delete 
 	from  tbl_events
 	where title = #{title}
-	  and start = #{eventStart}
-	  and end = #{eventEnd}
+	  and event_start = #{start}
+	  and event_end = #{end}
 	</delete>
 </mapper>
