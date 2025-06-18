@@ -10,35 +10,48 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class LogFilter implements Filter {
 	List<String> list = new ArrayList<>();
 
 	public LogFilter() {
 		System.out.println("필터객체 생성.");
-		list.add("192.168.0.19");
 	}
-	
+
 	@Override
-	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-		System.out.println("서블릿 실행 전.");
-		
+	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+			throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		System.out.println("서블릿 실행전.");
+
 		String host = req.getRemoteAddr();
 		String port = "" + req.getRemotePort();
-		System.out.println("접속 Host: " + host + " || 접속 Port:" + port);
-		
+		// System.out.println("접속Host:" + host + "Port:" + port);
+
 		HttpServletRequest request = (HttpServletRequest) req;
 		String uri = request.getRequestURI();
 		String context = request.getContextPath();
 		String page = uri.substring(context.length());
-		
-		if (list.indexOf(host) != -1) {
-			System.out.println("IP: " + host + ", page: " + page);
+
+		// localhost의 요청이 아니면 loginForm.do 페이지로 리다이렉션 하기.
+		if (!host.equals("0:0:0:0:0:0:0:1") && !page.equals("/loginForm.do")) {
+			System.out.println("IP: " + host + ", Page: " + page);
+			HttpServletResponse response = (HttpServletResponse) resp;
+			response.sendRedirect("loginForm.do");
 			return;
 		}
-		chain.doFilter(req, resp); // 서블릿 실행
-		
-		System.out.println("서블릿 실행 후.");
+		HttpSession session = request.getSession();
+		String login = (String) session.getAttribute("logId");
+//		if (!page.equals("loginForm.do") && (login == null || login.equals(""))) {
+//			HttpServletResponse response = (HttpServletResponse) resp;
+//			response.sendRedirect("loginForm.do");
+//			return;
+//		}
+		chain.doFilter(req, resp); // 서블릿 실행.
+
+		System.out.println("서블릿 실행후.");
 	}
 
 }
