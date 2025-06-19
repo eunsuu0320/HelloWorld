@@ -17,6 +17,7 @@ fetch(url)
 		// #centerList
 		// [].forEach(function(elem, idx, ary) {       })
 		centerAry.forEach((center, idx) => {
+			console.log(center)
 			// sidoAry에 중복하지 않고 담기.
 			if (sidoAry.indexOf(center.sido) == -1) {
 				sidoAry.push(center.sido); // 추가.
@@ -26,8 +27,8 @@ fetch(url)
 				// tr생성하기.
 				let tr = makeRow(center);
 				document.querySelector('#centerList').appendChild(tr);
-			} // end of if.
-		}); // end of for.
+			} 
+		});
 		console.log(sidoAry);
 		// sidoAry의 갯수만큼 <option value="sido정보">sido정보</option>
 		sidoAry.forEach(sido => {
@@ -83,7 +84,6 @@ let result = [1, 3, 5, 7].reduce(function(acc, elem, idx, ary) {
 	return acc; // <ul><li>5</li></ul>
 }, document.querySelector('#target'));
 console.log('결과: ', result);
-
 
 
 
